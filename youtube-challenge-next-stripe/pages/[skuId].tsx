@@ -1,12 +1,13 @@
+import Link from 'next/link';
 import React from 'react';
 import Stripe from 'stripe';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import stripeConfig from '../config/stripe';
 
-const Product: React.FC = () => {
-  return <h1>Product</h1>;
-};
+interface Props {
+  sku: Stripe.Sku;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const stripe = new Stripe(stripeConfig.secretKey, {
@@ -42,4 +43,27 @@ const sku = await stripe.skus.retrieve(params.skuId as string);
     },
   };
 };
+
+const Product: React.FC<Props> = ({ sku }) => {
+  return (
+    <div>
+      <h1>{sku.attributes.name}</h1>
+
+      {sku.image && ( 
+      <img 
+        src={sku.image}
+        style={{
+          width: '100px',
+        }}
+      />
+      )}
+
+      <h2>{Number(sku.price/ 100).toFixed} {sku.currency.toUpperCase()}</h2>
+
+
+     <link href="/">Go back</link>   
+    </div>
+  )
+};
+
 export default Product;
