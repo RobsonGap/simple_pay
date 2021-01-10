@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const HomePage: React.FC<Props> = ({ skus }) => {
   return ( 
     <>
-     <h1>Simple Stripe Store</h1>;
+     <h1>Simple Stripe Store</h1>
 
     {skus.map(sku => (
       <div key={sku.id}>
@@ -44,7 +44,7 @@ const HomePage: React.FC<Props> = ({ skus }) => {
           {Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}
         </h2>
 
-        <Link href="/">Visit Page</Link>
+        <Link href={'/' + sku.id}>Visit Page</Link>
         <hr/>
       </div>
     ))}
