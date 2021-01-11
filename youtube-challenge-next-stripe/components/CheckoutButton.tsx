@@ -10,12 +10,12 @@ interface Props {
   itemName: string;
 }
 
-const CheckoutButton: React.FC<Props> = ({ skulId, itemName }) => {
+const CheckoutButton: React.FC<Props> = ({ skuId, itemName }) => {
   async function handleClick() {
     const stripe = await stripePromise;
 
     const { error } = await stripe.redirectToCheckout({
-      items: [{ sku: skulId, quantity: 1}],
+      items: [{ sku: skuId, quantity: 1}],
       successUrl: `http://localhost:300/sucess?itemName=${itemName}`,
       cancelUrl: 'http://localhost:3000/cancel',
     });

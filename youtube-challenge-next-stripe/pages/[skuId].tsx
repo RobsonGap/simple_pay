@@ -58,8 +58,15 @@ const Product: React.FC<Props> = ({ sku }) => {
       />
       )}
 
-      <h2>{Number(sku.price/ 100).toFixed} {sku.currency.toUpperCase()}</h2>
 
+      <h2>
+        {Number(sku.price/ 100).toFixed} {sku.currency.toUpperCase()}
+      </h2>
+
+      <CheckoutButton skuId={sku.id} itemName={sku.attributes.name} />
+
+      <br />
+      <br />
 
      <link href="/">Go back</link>   
     </div>
