@@ -2,7 +2,11 @@ import React from 'react';
 import { useRouter } from 'next/router'
 
 const SuccessPage: React.FC = () => {
-  const { query } = useRouter(); 
+  const { 
+    query: { itemName },
+   } = useRouter(); 
  
-  return <h1>Thank you for buying {query.itemName}</h1>
+  return <h1>Thank you for buying {itemName}</h1>
 }
+
+export default SuccessPage;

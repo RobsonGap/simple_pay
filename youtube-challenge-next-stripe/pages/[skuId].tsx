@@ -70,7 +70,7 @@ const Product: React.FC<Props> = ({ sku }) => {
 
      <link href="/">Go back</link>   
     </div>
-  )
+  );
 };
 
 export default Product;
