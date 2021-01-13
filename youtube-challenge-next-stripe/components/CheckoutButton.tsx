@@ -3,20 +3,20 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import stripeConfig from '../config/stripe';
 
-const stripePromise = loadStripe(stripeConfig.publicKey);
+const stripePromise =  loadStripe(stripeConfig.publicKey);
 
 interface Props {
   skuId: string;
   itemName: string;
 }
 
-const CheckoutButton: React.FC<Props> = ({ skuId, itemName }) => {
+const CheckooutButton: React.FC<Props> = ({ skuId, itemName }) => {
   async function handleClick() {
     const stripe = await stripePromise;
 
-    const { error } = await stripe.redirectToCheckout({
+    const { error } =  await stripe.redirectToCheckout({
       items: [{ sku: skuId, quantity: 1}],
-      successUrl: `http://localhost:300/sucess?itemName=${itemName}`,
+      successUrl: `http://localhost:3000/success?itemName=${itemName}`,
       cancelUrl: 'http://localhost:3000/cancel',
     });
 
@@ -24,11 +24,11 @@ const CheckoutButton: React.FC<Props> = ({ skuId, itemName }) => {
       console.log(error);
     }
   }
-  return (
+  return  (
     <button role="link" onClick={handleClick}>
       Buy
     </button>
   );
 };
 
-export default CheckoutButton;
+export default CheckooutButton;
