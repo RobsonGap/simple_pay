@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import Stripe from 'stripe';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import CheckoutButton from 'next/link';
 
 import stripeConfig from '../config/stripe';
 
