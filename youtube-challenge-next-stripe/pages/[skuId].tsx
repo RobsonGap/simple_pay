@@ -2,9 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 import Stripe from 'stripe';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import CheckoutButton from 'next/link';
 
 import stripeConfig from '../config/stripe';
+import CheckoutButton from '../components/CheckoutButton';
 
 interface Props {
   sku: Stripe.Sku;
@@ -15,63 +15,60 @@ export const getStaticPaths: GetStaticPaths = async () => {
     apiVersion: '2020-08-27',
   });
 
-const skus = await stripe.skus.list();
+  const skus = await stripe.skus.list();
 
-const paths = skus.data.map((sku) => ({
-  params: {
-    skuId: sku.id,
-  },
-}));
-
-return {
-  paths,
-  fallback: false,
-};
-
-}
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const stripe = new Stripe(stripeConfig.secretKey, {
-    apiVersion: '2020-08-27',
-  });
-
-const { skuId } = params;  
- 
-const sku = await stripe.skus.retrieve(params.skuId as string);
+  const paths = skus.data.map((sku) => ({
+    params: {
+      skuId: sku.id,
+    },
+  }));
 
   return {
-    props: {
-      sku,
-    },
+    paths,,
+    fallback: false,
   };
 };
 
-const Product: React.FC<Props> = ({ sku }) => {
-  return (
-    <div>
-      <h1>{sku.attributes.name}</h1>
+  export const getStaticProps: GetStaticProps = async ({ params }) => {
+    const stripe = new Stripe(stripeConfig.secretKey, {
+      apiVersion: '2020-08-27',
+    });
 
-      {sku.image && ( 
-      <img 
-        src={sku.image}
-        style={{
-          width: '100px',
-        }}
-      />
-      )}
+    const { skuId } = params;
 
+    const sku = await stripe.skus.retrieve(skuId as string);
 
-      <h2>
-        {Number(sku.price/ 100).toFixed} {sku.currency.toUpperCase()}
-      </h2>
+    return {
+      props: {
+        sku,
+      },
+    };
+  };
 
-      <CheckoutButton skuId={sku.id} itemName={sku.attributes.name} />
+  const Product: React.Fc<Props> = ({ sku }) => {
+    return (
+      <div>
+        <h1>{sku.attributes.name}</h1>
 
-      <br />
-      <br />
+        {sku.image && (
+          <img
+            src={sku.image}
+            style={{
+              width: '100px',
+            }}
+            />
+        )}
 
-     <link href="/">Go back</link>   
-    </div>
-  );
-};
+        <h2>
+          {Number(sku.price / 100).toFixed(2)} {sku.currency.toUpperCase()}
+        </h2>
 
-export default Product;
+        <CheckoutButton skuId={sku.id} itemName={sku.attributes.name} />
+
+        <br />
+        <br />
+
+        <Link href="/">Go back</Link>
+      </div>
+    );
+  };
